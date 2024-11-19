@@ -1,11 +1,12 @@
 FROM --platform=i386 i386/debian:buster
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update && apt-get -y upgrade && \
-	apt-get -y install apt-utils gcc \
-	python3 vim unzip nodejs \
+	apt-get -y install apt-utils \
+	python3 unzip nodejs \
 	fakeroot dbus base hexedit \
-	patch ucf file make dialog curl \
-	less nano default-jre default-jdk
+	patch ucf file dialog curl \
+	less nano default-jre default-jdk && \
+	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
