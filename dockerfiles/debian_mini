@@ -11,11 +11,11 @@ RUN apt-get clean && apt-get update && apt-get -y upgrade && \
     less nano default-jre default-jdk && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables for Java
+# Set environment variables for Java and CheerpX compatibility
 ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-i386"
 ENV PATH="${JAVA_HOME}/bin:$PATH"
 ENV LD_LIBRARY_PATH="${JAVA_HOME}/lib/server:$LD_LIBRARY_PATH"
-ENV JAVA_TOOL_OPTIONS="-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -XX:ActiveProcessorCount=1"
+ENV JAVA_TOOL_OPTIONS="-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -XX:ActiveProcessorCount=1 -XX:-UseGetCpuForContainer"
 
 # Add a user and set up examples
 RUN useradd -m user && echo "user:password" | chpasswd
