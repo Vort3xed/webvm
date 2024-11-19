@@ -5,8 +5,8 @@ RUN apt-get -y install apt-utils gcc \
 	python3 vim unzip nodejs \
 	fakeroot dbus base whiptail hexedit \
 	patch wamerican ucf manpages \
-	file luajit make dialog curl \
-	less cowsay netcat-openbsd nano default-jre default-jdk
+	file make dialog curl \
+	less cowsay nano default-jre default-jdk
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
