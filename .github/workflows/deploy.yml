@@ -87,9 +87,11 @@ jobs:
               gh run watch ${{ github.run_id }}
             fi
 
+
   build:
     needs: guard_clause # Dependency
-    runs-on: ubuntu-latest # Image to run the worker on.
+    # runs-on: ubuntu-latest # Image to run the worker on.
+    runs-on: self-hosted
 
     env:
       TAG: "ext2-webvm-base-image" # Tag of docker image.
