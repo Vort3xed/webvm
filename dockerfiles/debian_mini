@@ -5,30 +5,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Install required packages
 RUN apt-get clean && apt-get update && apt-get -y upgrade && \
     apt-get -y install apt-utils \
-    python3 unzip nodejs \
+    python3 unzip nodejs lua50 luajit make g++ gcc \
     fakeroot dbus base hexedit \
-    patch ucf file dialog curl \
-    less nano openjdk-11-jdk-headless openjdk-11-jre-headless && \
+    patch ucf file dialog  \
+    less nano vim && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables for JVM compatibility
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-i386"
-ENV PATH="${JAVA_HOME}/bin:$PATH"
-ENV LD_LIBRARY_PATH="${JAVA_HOME}/lib/server:$LD_LIBRARY_PATH"
-ENV JAVA_TOOL_OPTIONS="-XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -XX:ActiveProcessorCount=1 -XX:-UseContainerCpuShares -XX:-UseContainerSupport -Djava.awt.headless=true"
 
-# Add a user and set up examples
+# Make a user, then copy over the /example directory
 RUN useradd -m user && echo "user:password" | chpasswd
 COPY --chown=user:user ./examples /home/user/examples
-
-# Set the working directory and additional environment variables
-WORKDIR /home/user/
-ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" EDITOR="vim" LANG="en_US.UTF-8" LC_ALL="C"
-
-# Set root password for debugging purposes
+RUN chmod -R +x  /home/user/examples/lua
 RUN echo 'root:password' | chpasswd
-
-# Default command
 CMD [ "/bin/bash" ]
 
 
